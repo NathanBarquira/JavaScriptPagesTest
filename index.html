@@ -14,7 +14,7 @@
                 return;
             }
 
-            var socket = new WebSocket("ws://" + ip + ":7787");
+            var socket = new WebSocket("wss://" + ip + ":7787");
 
             socket.onopen = function (event) {
                 alert("Connected to websocket with ip = " + ip);
