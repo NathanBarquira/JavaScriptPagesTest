@@ -13,10 +13,14 @@
             justify-content: center;
         }
 
-            #dpad button, #interactButton {
-                width: 50px;
-                height: 50px;
-            }
+        #dpad button, #interactButton {
+            -webkit-user-select: none; /* for Safari */
+            -moz-user-select: none; /* for Firefox */
+            -ms-user-select: none; /* for Internet Explorer/Edge */
+            user-select: none; /* for everything else? */
+            width: 50px;
+            height: 50px;
+        }
 
         #interactButton {
             width: 100px;
@@ -144,7 +148,7 @@
             <button onclick="sendOneMessage('move', 'down')" onmouseenter="startSendingMessages('move', 'down')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'down')" ontouchend="stopSendingMessages()">Down</button>
             <button class="filler"></button>
         </div>
-        <button id="interactButton" onclick="sendOneMessage('interact', 'tap')" onmouseenter="startSendingInteracts()" onmouseleave="stopSendingInteracts()" ontouchstart="startSendingInteracts()" ontouchend="stopSendingInteracts()">Interact</button>
+        <button id="interactButton" onmouseenter="startSendingInteracts()" onmouseleave="stopSendingInteracts()" ontouchstart="startSendingInteracts()" ontouchend="stopSendingInteracts()">Interact</button>
     </div>
 </body>
 </html>
