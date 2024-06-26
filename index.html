@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebSocket Connection Test</title>
     <style>
+
+        html, body {
+            touch-action: manipulation; /* Prevents double-tap zoom but allows pinch-zoom */
+        }
+
         #dpad {
             display: grid;
             grid-template-columns: repeat(3, 50px);
@@ -14,6 +19,7 @@
         }
 
         #dpad button, #interactButton {
+            touch-action: manipulation;
             -webkit-user-select: none; /* for Safari */
             -moz-user-select: none; /* for Firefox */
             -ms-user-select: none; /* for Internet Explorer/Edge */
@@ -139,16 +145,16 @@
     <div id="controls">
         <div id="dpad">
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'up')" onmouseenter="startSendingMessages('move', 'up')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'up')" ontouchend="stopSendingMessages()">Up</button>
+            <button onclick="sendOneMessage('move', 'up')" onmouseenter="startSendingMessages('move', 'up')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'up')" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Up</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'left') "onmouseenter="startSendingMessages('move', 'left')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'left')" ontouchend="stopSendingMessages()">Left</button>
+            <button onclick="sendOneMessage('move', 'left') "onmouseenter="startSendingMessages('move', 'left')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'left')" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Left</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'right')" onmouseenter="startSendingMessages('move', 'right')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'right')" ontouchend="stopSendingMessages()">Right</button>
+            <button onclick="sendOneMessage('move', 'right')" onmouseenter="startSendingMessages('move', 'right')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'right')" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Right</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'down')" onmouseenter="startSendingMessages('move', 'down')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'down')" ontouchend="stopSendingMessages()">Down</button>
+            <button onclick="sendOneMessage('move', 'down')" onmouseenter="startSendingMessages('move', 'down')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'down')" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Down</button>
             <button class="filler"></button>
         </div>
-        <button id="interactButton" onmouseenter="startSendingInteracts()" onmouseleave="stopSendingInteracts()" ontouchstart="startSendingInteracts()" ontouchend="stopSendingInteracts()">Interact</button>
+        <button id="interactButton" onmouseenter="startSendingInteracts()" onmouseleave="stopSendingInteracts()" ontouchstart="startSendingInteracts()" ontouchend="stopSendingInteracts()" ontouchcancel="stopSendingInteracts()">Interact</button>
     </div>
 </body>
 </html>
