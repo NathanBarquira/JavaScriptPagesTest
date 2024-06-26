@@ -13,12 +13,12 @@
             justify-content: center;
         }
 
-            #dpad button, #interactBtn {
+            #dpad button, #interactButton {
                 width: 50px;
                 height: 50px;
             }
 
-        #interactBtn {
+        #interactButton {
             width: 100px;
             height: 100px;
         }
@@ -36,8 +36,10 @@
         }
     </style>
     <script>
-        var messageInterval;
+        var moveMessageInterval;
+        var interactMessageInterval;
         var sessionId;
+        var isMovementPressed;
 
         function connectToServer() {
             let ip = document.getElementById("ipAddress").value;
@@ -74,9 +76,31 @@
         }
 
         function startSendingMessages(type, value) {
-            if (window.currentSocket && window.currentSocket.readyState === WebSocket.OPEN) {
-                messageInterval = setInterval(() => {
+            if (!isMovementPressed && window.currentSocket && window.currentSocket.readyState === WebSocket.OPEN) {
+                moveMessageInterval = setInterval(() => {
                     const message = { id: sessionId, type: type, value: value };
+                    window.currentSocket.send(JSON.stringify(message));
+                    console.log('Message sent:', message);
+                }, 100); // 1/10 of a second
+
+                // to allow only one button to be pressed
+                isMovementPressed = true;
+            } else {
+                console.log('WebSocket not connected');
+            }
+        }
+
+        function stopSendingMessages() {
+            clearInterval(moveMessageInterval);
+            console.log('Stopped sending messages');
+
+            isMovementPressed = false;
+        }
+
+        function startSendingInteracts() {
+            if (window.currentSocket && window.currentSocket.readyState === WebSocket.OPEN) {
+                interactMessageInterval = setInterval(() => {
+                    const message = { id: sessionId, type: 'interact', value: 'start' };
                     window.currentSocket.send(JSON.stringify(message));
                     console.log('Message sent:', message);
                 }, 100); // 1/10 of a second
@@ -85,8 +109,12 @@
             }
         }
 
-        function stopSendingMessages() {
-            clearInterval(messageInterval);
+        function stopSendingInteracts() {
+            clearInterval(interactMessageInterval);
+
+            const message = { id: sessionId, type: 'interact', value: 'stop' };
+            window.currentSocket.send(JSON.stringify(message));
+
             console.log('Stopped sending messages');
         }
 
@@ -107,16 +135,16 @@
     <div id="controls">
         <div id="dpad">
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'up')" onmousedown="startSendingMessages('move', 'up')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'up')" ontouchend="stopSendingMessages()">Up</button>
+            <button onclick="sendOneMessage('move', 'up')" onmouseenter="startSendingMessages('move', 'up')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'up')" ontouchend="stopSendingMessages()">Up</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'left') "onmousedown="startSendingMessages('move', 'left')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'left')" ontouchend="stopSendingMessages()">Left</button>
+            <button onclick="sendOneMessage('move', 'left') "onmouseenter="startSendingMessages('move', 'left')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'left')" ontouchend="stopSendingMessages()">Left</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'right')" onmousedown="startSendingMessages('move', 'right')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'right')" ontouchend="stopSendingMessages()">Right</button>
+            <button onclick="sendOneMessage('move', 'right')" onmouseenter="startSendingMessages('move', 'right')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'right')" ontouchend="stopSendingMessages()">Right</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 'down')" onmousedown="startSendingMessages('move', 'down')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'down')" ontouchend="stopSendingMessages()">Down</button>
+            <button onclick="sendOneMessage('move', 'down')" onmouseenter="startSendingMessages('move', 'down')" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'down')" ontouchend="stopSendingMessages()">Down</button>
             <button class="filler"></button>
         </div>
-        <button id="interactBtn" onclick="sendOneMessage('interact', '1')" onmousedown="startSendingMessages('interact', '1')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('interact', '1')" ontouchend="stopSendingMessages()">Interact</button>
+        <button id="interactButton" onclick="sendOneMessage('interact', 'tap')" onmouseenter="startSendingInteracts()" onmouseleave="stopSendingInteracts()" ontouchstart="startSendingInteracts()" ontouchend="stopSendingInteracts()">Interact</button>
     </div>
 </body>
 </html>
