@@ -145,16 +145,16 @@
     <div id="controls">
         <div id="dpad">
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 1)" onmouseenter="startSendingMessages('move', 1)" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 1)" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Up</button>
+            <button onclick="sendOneMessage('move', 1)">Up</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 3) "onmouseenter="startSendingMessages('move', 3)" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 3)" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Left</button>
+            <button onclick="sendOneMessage('move', 3)">Left</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 4)" onmouseenter="startSendingMessages('move', 4)" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 4)" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Right</button>
+            <button onclick="sendOneMessage('move', 4)">Right</button>
             <button class="filler"></button>
-            <button onclick="sendOneMessage('move', 2)" onmouseenter="startSendingMessages('move', 2)" onmouseleave="stopSendingMessages()" ontouchstart="startSendingMessages('move', 2)" ontouchend="stopSendingMessages()" ontouchcancel="stopSendingMessages()">Down</button>
+            <button onclick="sendOneMessage('move', 2)">Down</button>
             <button class="filler"></button>
         </div>
-        <button id="interactButton" onmouseenter="startSendingInteracts()" onmouseleave="stopSendingInteracts()" ontouchstart="startSendingInteracts()" ontouchend="stopSendingInteracts()" ontouchcancel="stopSendingInteracts()">Interact</button>
+        <button id="interactButton" onclick="sendOneMessage('interact', 'start')">Interact</button>
     </div>
 </body>
 </html>
