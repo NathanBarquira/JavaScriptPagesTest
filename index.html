@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Websocket Connection Test</title>
-    <script src="node_modules/flatbuffers/js/flatbuffers.js"></script>
+    <script src="dist/bundle.js"></script>
     <script>
         function connectToServer() {
             // getting the address
@@ -39,7 +39,7 @@
             const randomNumber = 20000 + Math.floor(Math.random() * (40000 - 20000 + 1));
 
             let builder = new flatbuffers.Builder(1024);
-            alert("generated random sessionId = " + randomNumber);
+            console.log("generated random sessionId = " + randomNumber);
         }
     </script>
 
