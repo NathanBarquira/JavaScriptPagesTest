@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Websocket Connection Test</title>
+    <script src="node_modules/flatbuffers/flatbuffers.js"></script>
     <script>
         function connectToServer() {
             // getting the address
-            var ip = document.getElementById("ipAddress").value;
+            let ip = document.getElementById("ipAddress").value;
 
             if (ip.trim() == "") {
                 alert("empty IP address");
                 return;
             }
 
-            var socket = new WebSocket("wss://" + ip + ":7787");
+            let socket = new WebSocket("wss://" + ip + ":7787");
 
             socket.onopen = function (event) {
                 alert("Connected to websocket with ip = " + ip);
+
+                sendMobileToMediaPlaneLoginRequest();
             };
 
             socket.onerror = function (error) {
@@ -30,6 +33,13 @@
 
             // to be used elsewhere
             window.currentSocket = socket;
+        }
+
+        function sendMobileToMediaPlaneLoginRequest() {
+            const randomNumber = 20000 + Math.floor(Math.random() * (40000 - 20000 + 1));
+
+            let builder = new flatbuffers.Builder(1024);
+            alert("generated random sessionId = " + randomNumber);
         }
     </script>
 
