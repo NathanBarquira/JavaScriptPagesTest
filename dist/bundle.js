@@ -9,6 +9,16 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("// importing flatbuffers\nvar flatbuffers = (__webpack_require__(/*! flatbuffers */ \"./node_modules/flatbuffers/mjs/flatbuffers.js\").flatbuffers);\nwindow.flatbuffers = flatbuffers; // making it global cuz laziness\nconsole.log(\"FlatBuffers is loaded\", flatbuffers);\n\n//# sourceURL=webpack://javascriptpagestest/./src/index.js?");
+
+/***/ }),
+
 /***/ "./node_modules/flatbuffers/mjs/builder.js":
 /*!*************************************************!*\
   !*** ./node_modules/flatbuffers/mjs/builder.js ***!
@@ -72,16 +82,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   float32: () => (/* binding */ float32),\n/* harmony export */   float64: () => (/* binding */ float64),\n/* harmony export */   int32: () => (/* binding */ int32),\n/* harmony export */   isLittleEndian: () => (/* binding */ isLittleEndian)\n/* harmony export */ });\nconst int32 = new Int32Array(2);\nconst float32 = new Float32Array(int32.buffer);\nconst float64 = new Float64Array(int32.buffer);\nconst isLittleEndian = new Uint16Array(new Uint8Array([1, 0]).buffer)[0] === 1;\n\n\n//# sourceURL=webpack://javascriptpagestest/./node_modules/flatbuffers/mjs/utils.js?");
-
-/***/ }),
-
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("// importing flatbuffers\nvar flatbuffers = (__webpack_require__(/*! flatbuffers */ \"./node_modules/flatbuffers/mjs/flatbuffers.js\").flatbuffers);\nconsole.log(\"FlatBuffers is loaded\", flatbuffers);\n\n//# sourceURL=webpack://javascriptpagestest/./src/index.js?");
 
 /***/ })
 

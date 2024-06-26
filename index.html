@@ -3,51 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Websocket Connection Test</title>
-    <script src="dist/bundle.js"></script>
-    <script>
-        function connectToServer() {
-            // getting the address
-            let ip = document.getElementById("ipAddress").value;
+    <title>WebSocket Connection Test</title>
+    <style>
+        #dpad {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(3, 50px);
+            gap: 10px;
+            justify-content: center;
+        }
 
-            if (ip.trim() == "") {
-                alert("empty IP address");
+            #dpad button, #interactBtn {
+                width: 50px;
+                height: 50px;
+            }
+
+        #interactBtn {
+            width: 100px;
+            height: 100px;
+        }
+
+        #dpad .filler {
+            background: transparent;
+            border: none;
+        }
+
+        #controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Space between the D-pad and the Interact button */
+        }
+    </style>
+    <script>
+        var messageInterval;
+        var sessionId;
+
+        function connectToServer() {
+            let ip = document.getElementById("ipAddress").value;
+            if (ip.trim() === "") {
+                alert("Empty IP address");
                 return;
             }
 
             var socket = new WebSocket("wss://" + ip + ":7787");
 
-            socket.onopen = function (event) {
-                alert("Connected to websocket with ip = " + ip);
+            window.sessionId = -1;
 
+            socket.onopen = function () {
                 sendMobileToMediaPlaneLoginRequest();
+                alert("Connected to websocket with ip = " + ip);
             };
 
-            socket.onerror = function (error) {
-                alert("could not connect to ip = " + ip);
+            socket.onerror = function () {
+                alert("Could not connect to ip = " + ip);
             };
 
             socket.onmessage = function (event) {
                 console.log("Received message = ", event.data);
             };
 
-            // to be used elsewhere
             window.currentSocket = socket;
         }
 
         function sendMobileToMediaPlaneLoginRequest() {
-            const randomNumber = 20000 + Math.floor(Math.random() * (40000 - 20000 + 1));
+            sessionId = 20000 + Math.floor(Math.random() * (40000 - 20000 + 1));
+            console.log("Generated random sessionId = " + sessionId);
+            const message = { id: sessionId, type: 'login', value: sessionId };
+            window.currentSocket.send(JSON.stringify(message));
+        }
 
-            let builder = new flatbuffers.Builder(1024);
-            console.log("generated random sessionId = " + randomNumber);
+        function startSendingMessages(type, value) {
+            if (window.currentSocket && window.currentSocket.readyState === WebSocket.OPEN) {
+                messageInterval = setInterval(() => {
+                    const message = { id: sessionId, type: type, value: value };
+                    window.currentSocket.send(JSON.stringify(message));
+                    console.log('Message sent:', message);
+                }, 100); // 1/10 of a second
+            } else {
+                console.log('WebSocket not connected');
+            }
+        }
+
+        function stopSendingMessages() {
+            clearInterval(messageInterval);
+            console.log('Stopped sending messages');
+        }
+
+        function sendOneMessage(type, value) {
+            if (window.currentSocket && window.currentSocket.readyState === WebSocket.OPEN) {
+                const message = { id: sessionId, type: type, value: value };
+                window.currentSocket.send(JSON.stringify(message));
+                console.log('Message sent:', message);
+            }
         }
     </script>
-
 </head>
-
 <body>
     <h1>WebSocket Connection Test</h1>
-    <input type="text" id="ipAddress" placeholder="Enter Websocket IP here" />
+    <input type="text" id="ipAddress" placeholder="Enter WebSocket IP here" />
     <button onclick="connectToServer()">Connect</button>
+
+    <div id="controls">
+        <div id="dpad">
+            <button class="filler"></button>
+            <button onclick="sendOneMessage('move', 'up')" onmousedown="startSendingMessages('move', 'up')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'up')" ontouchend="stopSendingMessages()">Up</button>
+            <button class="filler"></button>
+            <button onclick="sendOneMessage('move', 'left') "onmousedown="startSendingMessages('move', 'left')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'left')" ontouchend="stopSendingMessages()">Left</button>
+            <button class="filler"></button>
+            <button onclick="sendOneMessage('move', 'right')" onmousedown="startSendingMessages('move', 'right')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'right')" ontouchend="stopSendingMessages()">Right</button>
+            <button class="filler"></button>
+            <button onclick="sendOneMessage('move', 'down')" onmousedown="startSendingMessages('move', 'down')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('move', 'down')" ontouchend="stopSendingMessages()">Down</button>
+            <button class="filler"></button>
+        </div>
+        <button id="interactBtn" onclick="sendOneMessage('interact', '1')" onmousedown="startSendingMessages('interact', '1')" onmouseup="stopSendingMessages()" ontouchstart="startSendingMessages('interact', '1')" ontouchend="stopSendingMessages()">Interact</button>
+    </div>
 </body>
 </html>
