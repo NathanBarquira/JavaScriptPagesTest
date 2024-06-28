@@ -407,6 +407,12 @@ h1{
   font-weight:bold;
 } */
 
+.ipcon{
+/* top: 20%;
+left: 200px; */
+width: 500px;
+height: 500px;
+}
 
 </style>
 
@@ -524,9 +530,7 @@ h1{
 
 
 <main>
-    <h1>Sphere Pod WebSocket Connection</h1>
-    <input type="text" id="ipAddress" value="10.232.64.22" />
-    <button onclick="connectToServer()">Connect</button>
+
 
     <section class="joystick center">
  <!--       <div class="animations">       -->
@@ -556,7 +560,11 @@ h1{
  
        
     </section>
- 
+    <section class="ipcon">   
+    <h1>Sphere Pod WebSocket Connection</h1>
+    <input type="text" id="ipAddress" value="10.232.64.22" />
+    <button onclick="connectToServer()">Connect</button>
+</section>
  </main>
  
  <div class="colors bg-blue"></div>
@@ -566,6 +574,6 @@ h1{
   
  
        
-     </main>
+
 </body>
 </html>
